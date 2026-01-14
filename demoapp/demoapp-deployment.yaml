@@ -1,0 +1,39 @@
+# API version for Deployment resource
+apiVersion: apps/v1
+
+# Type of Kubernetes object
+kind: Deployment
+
+# Metadata = identity info
+metadata:
+  name: demoapp
+  labels:
+    app: demoapp
+
+# Desired state of Deployment
+spec:
+  replicas: 2                  # Run 2 identical Pods (scaling + HA)
+
+  # Deployment will manage Pods with this label
+  selector:
+    matchLabels:
+      app: demoapp
+
+  # Pod template (blueprint for each Pod)
+  template:
+    metadata:
+      labels:
+        app: demoapp            # Must match selector
+    spec:
+      containers:
+        - name: demoapp
+
+          # Docker image built from your Dockerfile
+          image: awdhesh9211/demoapp:01
+
+          # Always pull image (good for dev)
+          imagePullPolicy: Always
+
+          # Nginx listens on port 80
+          ports:
+            - containerPort: 80

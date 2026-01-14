@@ -1,0 +1,22 @@
+# Core Kubernetes API
+apiVersion: v1
+
+# This object exposes Pods to network
+kind: Service
+
+metadata:
+  name: demoapp-service       # Service name (DNS name inside cluster)
+
+spec:
+  # Service type
+  # NodePort = accessible from browser via node IP
+  type: NodePort
+
+  # Selector decides which Pods this Service routes traffic to
+  selector:
+    app: demoapp              # Must match Pod label
+
+  ports:
+    - port: 80                # Service port (inside cluster)
+      targetPort: 80       # Container port
+      nodePort: 30080         # External port on Node (range 30000–32767)
